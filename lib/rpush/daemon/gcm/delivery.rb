@@ -19,7 +19,7 @@ module Rpush
 
         def perform
           handle_response(do_post)
-        rescue SocketError => error
+        rescue Errno::EHOSTUNREACH, Errno::ECONNRESET, SocketError => error
           mark_retryable(@notification, Time.now + 10.seconds, error)
           raise
         rescue StandardError => error
