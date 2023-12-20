@@ -9,7 +9,7 @@ module ActiveRecord
 end
 
 # :nocov:
-unless defined?(::SQLite3::Exception)
+unless defined?(SQLite3::Exception)
   module SQLite3
     class Exception < StandardError; end
   end
@@ -33,7 +33,7 @@ module Rpush
           ]
 
           def with_database_reconnect_and_retry
-            ::ActiveRecord::Base.connection_pool.with_connection do
+            ::Rpush::Client::ActiveRecord::Base.connection_pool.with_connection do
               yield
             end
           rescue *ADAPTER_ERRORS => e
@@ -61,8 +61,8 @@ module Rpush
           end
 
           def reconnect_database
-            ::ActiveRecord::Base.clear_all_connections!
-            ::ActiveRecord::Base.establish_connection
+            ::Rpush::Client::ActiveRecord::Base.clear_all_connections!
+            ::Rpush::Client::ActiveRecord::Base.establish_connection
           end
 
           def check_database_is_connected
