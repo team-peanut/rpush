@@ -62,7 +62,9 @@ module Rpush
 
           def reconnect_database
             ::Rpush::Client::ActiveRecord::Base.clear_all_connections!
-            ::Rpush::Client::ActiveRecord::Base.establish_connection
+            ::Rpush::Client::ActiveRecord::Base.establish_connection(
+              ::Rpush::Client::ActiveRecord::Base.connection_db_config.name.to_sym
+            )
           end
 
           def check_database_is_connected
